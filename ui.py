@@ -28,3 +28,17 @@ def get_inputs(titles):
             finally:
                 inputs.append(user_input)
         return inputs
+
+
+def print_schedule(schedule):
+
+    print('Your schedule for the day:')
+    if schedule:
+        for meeting in schedule:
+            start = meeting[index('start')]
+            end = start + meeting[index('duration')]
+            title = meeting[index('title')]
+            print(f'{start} - {end} {title}')
+    else:
+        print('(Empty)')
+    print('')
