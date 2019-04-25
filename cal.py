@@ -16,18 +16,23 @@ def main():
         if input_ == 's':
             schedule = add_meeting(schedule)
         elif input_ == 'c':
-            cancel_existing()
+            cancel_meeting()
         elif input_ == 'q':
             sys.exit()
 
 
 def add_meeting(schedule):
+    ui.print_message('Schedule a new meeting.')
     meeting = ui.get_inputs(['Enter meeting title',
                              'Enter duration in hours (1 or 2)',
                              'Enter start time'])
-    print('Meeting added.')
+    ui.print_message('Meeting added.')
     schedule.append(meeting)
     return schedule
+
+
+def cancel_meeting(schedule):
+    meeting_to_cancel = ui.get_inputs([])
 
 
 def index(name):
