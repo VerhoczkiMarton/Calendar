@@ -30,5 +30,16 @@ def add_meeting(schedule):
     return schedule
 
 
+def index(name):
+    if name == 'title':
+        return 0
+    elif name == 'duration':
+        return 1
+    elif name == 'start':
+        return 2
+    else:
+        raise IndexError
+
+
 if __name__ == "__main__":
     main()
