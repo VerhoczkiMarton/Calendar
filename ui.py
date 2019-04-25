@@ -42,3 +42,7 @@ def print_schedule(schedule):
     else:
         print('(Empty)')
     print('')
+
+
+def print_message(message):
+    print(message)
