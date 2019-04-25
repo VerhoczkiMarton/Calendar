@@ -14,11 +14,20 @@ def main():
         input_ = ui.get_inputs('Your choice')
 
         if input_ == 's':
-            schedule = schedule_new(schedule)
+            schedule = add_meeting(schedule)
         elif input_ == 'c':
             cancel_existing()
         elif input_ == 'q':
             sys.exit()
+
+
+def add_meeting(schedule):
+    meeting = ui.get_inputs(['Enter meeting title',
+                             'Enter duration in hours (1 or 2)',
+                             'Enter start time'])
+    print('Meeting added.')
+    schedule.append(meeting)
+    return schedule
 
 
 if __name__ == "__main__":
