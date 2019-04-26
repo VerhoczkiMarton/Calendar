@@ -16,7 +16,7 @@ def main():
         if input_ == 's':
             schedule = add_meeting(schedule)
         elif input_ == 'c':
-            cancel_meeting()
+            schedule = cancel_meeting(schedule)
         elif input_ == 'q':
             sys.exit()
 
@@ -32,7 +32,15 @@ def add_meeting(schedule):
 
 
 def cancel_meeting(schedule):
-    meeting_to_cancel = ui.get_inputs([])
+    ui.print_message('Cancel an existing meeting.')
+    meeting_to_cancel = ui.get_inputs('Enter the start time')
+    if meeting_to_cancel in [x[index('start')] for x in schedule]:
+        for meeting in schedule:
+            if meeting[index('start')] == meeting_to_cancel:
+                schedule.remove(meeting)
+    else:
+        ui.print_message('ERROR: There is no meeting starting at that time!')
+    return schedule
 
 
 def index(name):
