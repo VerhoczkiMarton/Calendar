@@ -33,6 +33,8 @@ def main():
             schedule = compact_schedule(schedule)
         elif input_ == 'q':
             sys.exit()
+        else:
+            ui.print_message('Invalid input')
         storage.export_to_file(schedule, 'meetings.txt')
 
 
@@ -62,7 +64,6 @@ def cancel_meeting(schedule):
 
 def edit_meeting(schedule):
     meeting_to_edit = ui.get_inputs('Enter the start time')
-    new_meeting = []
     if meeting_to_edit in [x[index('start')] for x in schedule]:
         for meeting in schedule:
             if meeting[index('start')] == meeting_to_edit:
@@ -70,7 +71,6 @@ def edit_meeting(schedule):
                 schedule.remove(meeting)
                 schedule = add_meeting(schedule)
                 break
-
     else:
         ui.print_message('ERROR: There is no meeting starting at that time!')
     return schedule
@@ -104,11 +104,11 @@ def validate_meeting(schedule, meeting):
     valid_durations = [1, 2]
     valid_times = [x for x in range(8, 19)]
     meeting_times_current = get_meeting_times(meeting)
-    meeting_times_already = [get_meeting_times(x) for x in schedule]
+    meeting_times_in_schedule = [get_meeting_times(x) for x in schedule]
     overlap = False
 
-    for meeting_time_already in meeting_times_already:
-        overlap = get_overlap(meeting_time_already, meeting_times_current)
+    for meeting_time_in_schedule in meeting_times_in_schedule:
+        overlap = get_overlap(meeting_time_in_schedule, meeting_times_current)
 
     if meeting[index('duration')] not in valid_durations:
         ui.print_message('ERROR: Invalid duration.')
