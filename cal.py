@@ -37,10 +37,9 @@ def main():
 
 
 def add_meeting(schedule):
-    
     meeting = ui.get_inputs(['Enter meeting title',
-                                 'Enter duration in hours (1 or 2)',
-                                 'Enter start time'])
+                             'Enter duration in hours (1 or 2)',
+                             'Enter start time'])
     while not validate_meeting(schedule, meeting):
         meeting = ui.get_inputs(['Enter meeting title',
                                  'Enter duration in hours (1 or 2)',
@@ -51,7 +50,6 @@ def add_meeting(schedule):
 
 
 def cancel_meeting(schedule):
-    
     meeting_to_cancel = ui.get_inputs('Enter the start time')
     if meeting_to_cancel in [x[index('start')] for x in schedule]:
         for meeting in schedule:
@@ -63,7 +61,6 @@ def cancel_meeting(schedule):
 
 
 def edit_meeting(schedule):
-    
     meeting_to_edit = ui.get_inputs('Enter the start time')
     new_meeting = []
     if meeting_to_edit in [x[index('start')] for x in schedule]:
