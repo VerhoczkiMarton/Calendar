@@ -8,6 +8,7 @@ def main():
                     'cancel an existing meeting',
                     'edit existing meeting',
                     'display total meeting duration',
+                    'reschedule to compact',
                     'quit']
 
     while True:
@@ -27,6 +28,9 @@ def main():
             schedule = edit_meeting(schedule)
         elif input_ == 'd':
             ui.print_result(get_total_duration(schedule), 'Total duration of meetings today')
+        elif input_ == 'r':
+            ui.print_message('Compact schedule.')
+            schedule = compact_schedule(schedule)
         elif input_ == 'q':
             sys.exit()
         storage.export_to_file(schedule, 'meetings.txt')
@@ -77,6 +81,15 @@ def edit_meeting(schedule):
 
 def get_total_duration(schedule):
     return sum([x[index('duration')] for x in schedule])
+
+
+def compact_schedule(schedule):
+    schedule.sort(key=lambda x: x[index('start')])
+    current_time = 8
+    for meeting in schedule:
+        meeting[index('start')] = current_time
+        current_time += meeting[index('duration')]
+    return schedule
 
 
 def index(name):
