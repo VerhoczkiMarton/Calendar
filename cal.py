@@ -109,6 +109,8 @@ def validate_meeting(schedule, meeting):
 
     for meeting_time_in_schedule in meeting_times_in_schedule:
         overlap = get_overlap(meeting_time_in_schedule, meeting_times_current)
+        if overlap:
+            break
 
     if meeting[index('duration')] not in valid_durations:
         ui.print_message('ERROR: Invalid duration.')
