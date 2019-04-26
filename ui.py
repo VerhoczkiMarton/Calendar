@@ -46,7 +46,9 @@ def print_schedule(schedule):
 
 def print_message(message):
     print(message)
+    print('')
 
 
 def print_result(result, title):
     print(f'{title}: {result}')
+    print('')
