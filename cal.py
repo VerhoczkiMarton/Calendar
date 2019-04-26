@@ -39,13 +39,12 @@ def main():
 
 
 def add_meeting(schedule):
-    meeting = ui.get_inputs(['Enter meeting title',
-                             'Enter duration in hours (1 or 2)',
-                             'Enter start time'])
-    while not validate_meeting(schedule, meeting):
+    while True:
         meeting = ui.get_inputs(['Enter meeting title',
                                  'Enter duration in hours (1 or 2)',
                                  'Enter start time'])
+        if validate_meeting(schedule, meeting):
+            break
     ui.print_message('Meeting added.')
     schedule.append(meeting)
     return schedule
