@@ -6,6 +6,7 @@ import storage
 def main():
     menu_options = ['schedule a new meeting',
                     'cancel an existing meeting',
+                    'edit existing meeting',
                     'quit']
 
     while True:
@@ -15,16 +16,21 @@ def main():
         input_ = ui.get_inputs('Your choice')
 
         if input_ == 's':
+            ui.print_message('Schedule a new meeting.')
             schedule = add_meeting(schedule)
         elif input_ == 'c':
+            ui.print_message('Cancel an existing meeting.')
             schedule = cancel_meeting(schedule)
+        elif input_ == 'e':
+            ui.print_message('Edit an existing meeting.')
+            schedule = edit_meeting(schedule)
         elif input_ == 'q':
             sys.exit()
         storage.export_to_file(schedule, 'meetings.txt')
 
 
 def add_meeting(schedule):
-    ui.print_message('Schedule a new meeting.')
+    
     meeting = ui.get_inputs(['Enter meeting title',
                                  'Enter duration in hours (1 or 2)',
                                  'Enter start time'])
@@ -38,12 +44,29 @@ def add_meeting(schedule):
 
 
 def cancel_meeting(schedule):
-    ui.print_message('Cancel an existing meeting.')
+    
     meeting_to_cancel = ui.get_inputs('Enter the start time')
     if meeting_to_cancel in [x[index('start')] for x in schedule]:
         for meeting in schedule:
             if meeting[index('start')] == meeting_to_cancel:
                 schedule.remove(meeting)
+    else:
+        ui.print_message('ERROR: There is no meeting starting at that time!')
+    return schedule
+
+
+def edit_meeting(schedule):
+    
+    meeting_to_edit = ui.get_inputs('Enter the start time')
+    new_meeting = []
+    if meeting_to_edit in [x[index('start')] for x in schedule]:
+        for meeting in schedule:
+            if meeting[index('start')] == meeting_to_edit:
+                ui.print_message('Editing.')
+                schedule.remove(meeting)
+                schedule = add_meeting(schedule)
+                break
+
     else:
         ui.print_message('ERROR: There is no meeting starting at that time!')
     return schedule
