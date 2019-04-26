@@ -23,9 +23,19 @@ def main():
 
 def add_meeting(schedule):
     ui.print_message('Schedule a new meeting.')
-    meeting = ui.get_inputs(['Enter meeting title',
-                             'Enter duration in hours (1 or 2)',
-                             'Enter start time'])
+    meeting = [[], [], []]
+    valid_durations = [1, 2]
+    valid_starts = [x for x in range(25)]
+
+    while (meeting[index('duration')] not in valid_durations) or (meeting[index('start')] not in valid_starts):
+        meeting = ui.get_inputs(['Enter meeting title',
+                                 'Enter duration in hours (1 or 2)',
+                                 'Enter start time'])
+        if (meeting[index('duration')] not in valid_durations):
+            ui.print_message('Invalid duration.')
+        elif (meeting[index('start')] not in valid_starts):
+            ui.print_message('Invalid start time.')
+
     ui.print_message('Meeting added.')
     schedule.append(meeting)
     return schedule
