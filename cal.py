@@ -1,14 +1,15 @@
 import ui
 import sys
+import storage
 
 
 def main():
     menu_options = ['schedule a new meeting',
                     'cancel an existing meeting',
                     'quit']
-    schedule = []
 
     while True:
+        schedule = storage.import_from_file('meetings.txt')
         ui.print_schedule(schedule)
         ui.print_menu(menu_options)
         input_ = ui.get_inputs('Your choice')
@@ -19,6 +20,7 @@ def main():
             schedule = cancel_meeting(schedule)
         elif input_ == 'q':
             sys.exit()
+        storage.export_to_file(schedule, 'meetings.txt')
 
 
 def add_meeting(schedule):
@@ -60,7 +62,7 @@ def index(name):
 
 def validate_meeting(schedule, meeting):
     valid_durations = [1, 2]
-    valid_starts = [x for x in range(8, 19)]
+    valid_times = [x for x in range(8, 19)]
     meeting_times_current = get_meeting_times(meeting)
     meeting_times_already = [get_meeting_times(x) for x in schedule]
     overlap = False
@@ -71,7 +73,10 @@ def validate_meeting(schedule, meeting):
     if meeting[index('duration')] not in valid_durations:
         ui.print_message('ERROR: Invalid duration.')
         return False
-    elif meeting[index('start')] not in valid_starts:
+    elif meeting[index('start')] not in valid_times:
+        ui.print_message('ERROR: Meeting is outside of your working hours (8 to 18)!')
+        return False
+    elif meeting[index('start')] + meeting[index('duration')] not in valid_times:
         ui.print_message('ERROR: Meeting is outside of your working hours (8 to 18)!')
         return False
     elif overlap:
@@ -90,9 +95,9 @@ def get_meeting_times(meeting):
 
 
 def get_overlap(meeting_times_1, meeting_times_2):
-    for meeting_time_1 in meeting_times_1:
-        if meeting_time_1 in meeting_times_2:
-            return True
+    meeting_times_1 = set(meeting_times_1)
+    if len(meeting_times_1.intersection(meeting_times_2)) > 1:
+        return True
     return False
 
 
