@@ -7,6 +7,7 @@ def main():
     menu_options = ['schedule a new meeting',
                     'cancel an existing meeting',
                     'edit existing meeting',
+                    'display total meeting duration',
                     'quit']
 
     while True:
@@ -24,6 +25,8 @@ def main():
         elif input_ == 'e':
             ui.print_message('Edit an existing meeting.')
             schedule = edit_meeting(schedule)
+        elif input_ == 'd':
+            ui.print_result(get_total_duration(schedule), 'Total duration of meetings today')
         elif input_ == 'q':
             sys.exit()
         storage.export_to_file(schedule, 'meetings.txt')
@@ -70,6 +73,10 @@ def edit_meeting(schedule):
     else:
         ui.print_message('ERROR: There is no meeting starting at that time!')
     return schedule
+
+
+def get_total_duration(schedule):
+    return sum([x[index('duration')] for x in schedule])
 
 
 def index(name):
